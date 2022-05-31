@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Popup = () => {
+const Home = () => {
   return <div></div>;
 };
 
-export default Popup;
+export default Home;
