@@ -1,11 +1,11 @@
 {
-  "name": "india-free-stuff",
+  "name": "lbp",
   "version": "0.0.1",
   "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
   "license": "MIT",
   "scripts": {
     "build": "npx tailwindcss -i ./src/input.css -o ./src/tailwind/output.css & node utils/build.js",
-    "start": "node utils/webserver.js & npx tailwindcss -i ./src/input.css -o ./src/tailwind/output.css --watch",
+    "start": "npx tailwindcss -i ./src/input.css -o ./src/tailwind/output.css --watch & node utils/webserver.js",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "build:css": "npx tailwindcss -i ./src/input.css -o ./src/tailwind/output.css --watch"
   },

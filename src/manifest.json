@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "version": "0.0.1",
-  "short_name": "IFS",
-  "name": "India Free Stuff",
-  "description": "IFS Description.",
+  "short_name": "LBP",
+  "name": "LBP",
+  "description": "LBP Description.",
   "background": { "service_worker": "background.bundle.js" },
   "action": {
     "default_popup": "popup.html",
