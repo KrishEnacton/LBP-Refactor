@@ -1,6 +1,6 @@
 export var config = {
   app_url: 'https://lbp8.enactweb.com',
-  api_app_url: 'https://api-https://lbp8.enactweb.com',
+  api_app_url: 'https://lbp8api.enactweb.com',
   welcome_url: 'https://lbp8.enactweb.com',
   login_url: '/login',
   logout_url: '',
