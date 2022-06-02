@@ -15,10 +15,15 @@ const Main = () => {
   useEffect(() => {
     set_user_lang();
     setLoading(true);
-    getUserDashboard().then((data) => {
-      setUserData(data);
-      setLoading(false);
-    });
+    getUserDashboard()
+      .then((data) => {
+        setUserData(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setUserData(false);
+        setLoading(false);
+      });
   }, []);
 
   const RenderActiveTab = (id) => {
