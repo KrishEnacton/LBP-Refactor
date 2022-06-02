@@ -1,2 +1,9 @@
-console.log('This is the background page.');
-console.log('Put the background scripts here.');
+import { onInstalled } from './onInstalled';
+import { onMessage } from './onMessage';
+import { onUpdated } from './onUpdated';
+
+chrome.runtime.onInstalled.addListener(onInstalled);
+
+chrome.runtime.onMessage.addListener(onMessage);
+
+chrome.tabs.onUpdated.addListener(onUpdated);
