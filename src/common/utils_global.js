@@ -160,3 +160,15 @@ export function get_constructed_cashback(amount_type, current_cb) {
   // }
   return amount;
 }
+
+export const getThemeFromStorage = () => {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['theme'], (result) => {
+      resolve(result.theme);
+    });
+  });
+};
+
+export const setThemeToStorage = (theme) => {
+  chrome.storage.local.set({ theme });
+};

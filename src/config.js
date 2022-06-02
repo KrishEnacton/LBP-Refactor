@@ -39,4 +39,5 @@ export var config = {
     { id: 101, title: 'top_stores', isEnable: true },
     { id: 102, title: 'top_offers', isEnable: true },
   ],
+  themeMode: 'dark', // light or dark
 };

@@ -27,8 +27,12 @@ const Home = () => {
   return (
     <div>
       Home Screen
-      {config.home_screen_tabs.map((item) => {
-        return <div onClick={() => setActiveTab(item.id)}>{translate(item.title)}</div>;
+      {config.home_screen_tabs.map((item, index) => {
+        return (
+          <div key={index} onClick={() => setActiveTab(item.id)}>
+            {translate(item.title)}
+          </div>
+        );
       })}
       {RenderHomeTab(activeTab)}
     </div>
