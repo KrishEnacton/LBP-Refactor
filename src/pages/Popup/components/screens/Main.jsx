@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getUserDashboard } from '../../../../common/dataProvider';
 import { getThemeFromStorage, setThemeToStorage, set_user_lang, translate } from '../../../../common/utils_global';
+import Styles from '../../../../style/Styles';
 import { ThemeContext, UserContext } from '../../context/UserContext';
 import BottomTab from '../BottomTab';
 import Header from '../header/Header';
@@ -52,6 +53,7 @@ const Main = () => {
   return (
     <ThemeContext.Provider value={[theme, setThemeToStateNStorage]}>
       <UserContext.Provider value={[userData, setUserData, loading]}>
+        <Styles />
         <div>
           <Header />
           {loading ? translate('loading') : userData?.user?.first_name}
