@@ -31,8 +31,12 @@ export var config = {
   default_lang: 'en',
   is_default_params: false,
   tabs: [
-    { id: 1, title: 'Home', isEnable: true, key: 'Home' },
-    { id: 2, title: 'Refer & Earn', isEnable: true, key: 'ReferNEarn' },
-    { id: 3, title: 'Profile', isEnable: true, key: 'Profile' },
+    { id: 1, title: 'home', isEnable: true, key: 'Home' },
+    { id: 2, title: 'refer_n_earn', isEnable: true, key: 'ReferNEarn' },
+    { id: 3, title: 'profile', isEnable: true, key: 'Profile' },
+  ],
+  home_screen_tabs: [
+    { id: 101, title: 'top_stores', isEnable: true },
+    { id: 102, title: 'top_offers', isEnable: true },
   ],
 };

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getUserDashboard } from '../../../../common/dataProvider';
 import { set_user_lang, translate } from '../../../../common/utils_global';
-import { config } from '../../../../config';
 import { UserContext } from '../../context/UserContext';
 import BottomTab from '../BottomTab';
 import Home from './Home';
@@ -22,7 +21,7 @@ const Main = () => {
     });
   }, []);
 
-  const ReturnActiveTab = (id) => {
+  const RenderActiveTab = (id) => {
     switch (id) {
       case 1:
         return <Home />;
@@ -38,8 +37,8 @@ const Main = () => {
   return (
     <UserContext.Provider value={[userData, setUserData]}>
       <div>
-        {loading ? translate('loading') : translate('data')}
-        {ReturnActiveTab(activeTab)}
+        {loading ? translate('loading') : userData?.user?.first_name}
+        {RenderActiveTab(activeTab)}
 
         <BottomTab setActiveTab={setActiveTab} activeTab={activeTab} />
       </div>

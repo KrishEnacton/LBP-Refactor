@@ -82,7 +82,8 @@ export const i18nextInit = () => {
             cashback_activity: 'Cashback Activities',
             no_data_found: 'No Results found for your search',
             loading: 'loading...',
-            data: 'en Krishna',
+            home: 'Home',
+            profile: 'Profile',
           },
         },
         hi: {
@@ -99,9 +100,7 @@ export const i18nextInit = () => {
           },
         },
         fr: {
-          translation: {
-            data: 'fr Krishna',
-          },
+          translation: {},
         },
       },
     });
