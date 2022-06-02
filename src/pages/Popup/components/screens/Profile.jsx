@@ -3,8 +3,7 @@ import { UserContext } from '../../context/UserContext';
 
 const Profile = () => {
   const userData = useContext(UserContext)[0];
-  console.log('user_info:', userData);
-  return <div></div>;
+  return <div>Profile</div>;
 };
 
 export default Profile;

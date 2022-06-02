@@ -30,4 +30,9 @@ export var config = {
   restricted_activate_cashback_inject: [],
   default_lang: 'en',
   is_default_params: false,
+  tabs: [
+    { id: 1, title: 'Home', isEnable: true, key: 'Home' },
+    { id: 2, title: 'Refer & Earn', isEnable: true, key: 'ReferNEarn' },
+    { id: 3, title: 'Profile', isEnable: true, key: 'Profile' },
+  ],
 };
