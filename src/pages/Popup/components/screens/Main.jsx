@@ -19,6 +19,7 @@ const Main = () => {
     set_user_lang();
     getThemeFromStorage().then((data) => {
       setTheme(data);
+      rawSetTheme(data);
     });
     setLoading(true);
     getUserDashboard()
@@ -35,6 +36,14 @@ const Main = () => {
   const setThemeToStateNStorage = (theme) => {
     setTheme(theme);
     setThemeToStorage(theme);
+    rawSetTheme(theme);
+  };
+
+  const rawSetTheme = (rawTheme) => {
+    const root = window.document.documentElement;
+    const isDark = rawTheme === 'dark';
+    root.classList.remove(isDark ? 'light' : 'dark');
+    root.classList.add(rawTheme);
   };
 
   const RenderActiveTab = (id) => {

@@ -25,7 +25,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white dark:bg-black transition-all">
       Home Screen
       {config.home_screen_tabs.map((item, index) => {
         return (
