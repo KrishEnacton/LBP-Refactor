@@ -7,8 +7,11 @@ export const onUpdated = (tab_info, change_info, tab) => {
     chrome.cookies.getAll({ url: tab.url }, function (cookies) {
       let cry_user_token;
       let user_id;
+      let lang;
       user_id = cookies.filter((a) => a.name === 'user_id')?.[0]?.value;
       cry_user_token = cookies.filter((a) => a.name === 'cry_user_token')?.[0]?.value;
+      lang = cookies.filter((a) => a.name === 'lang')?.[0]?.value;
+      chrome.storage.local.set({ lang: lang });
       if (user_id && cry_user_token) {
         chrome.storage.local.get('user_token', (result) => {
           if (!result.user_token) {
