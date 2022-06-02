@@ -3,6 +3,7 @@ import { getUserDashboard } from '../../../../common/dataProvider';
 import { set_user_lang, translate } from '../../../../common/utils_global';
 import { UserContext } from '../../context/UserContext';
 import BottomTab from '../BottomTab';
+import Header from '../header/Header';
 import Home from './Home';
 import Profile from './Profile';
 import ReferNEarn from './ReferNEarn';
@@ -21,7 +22,7 @@ const Main = () => {
         setLoading(false);
       })
       .catch(() => {
-        setUserData(false);
+        setUserData('');
         setLoading(false);
       });
   }, []);
@@ -40,8 +41,9 @@ const Main = () => {
   };
 
   return (
-    <UserContext.Provider value={[userData, setUserData]}>
+    <UserContext.Provider value={[userData, setUserData, loading]}>
       <div>
+        <Header />
         {loading ? translate('loading') : userData?.user?.first_name}
         {RenderActiveTab(activeTab)}
 
