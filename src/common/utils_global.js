@@ -1,4 +1,5 @@
 import i18next from 'i18next';
+import { config } from '../config';
 
 export const i18nextInit = () => {
   if (!i18next.isInitialized) {
@@ -171,4 +172,35 @@ export const getThemeFromStorage = () => {
 
 export const setThemeToStorage = (theme) => {
   chrome.storage.local.set({ theme });
+};
+
+export const returnLangParam = (_lang) => {
+  let lang = '';
+  if (config.is_default_params) {
+    lang = _lang ? `/${_lang}/` : `/${config.default_lang}/`;
+  } else {
+    if (_lang == config.default_lang) {
+      lang = '/';
+    } else {
+      lang = _lang ? `/${_lang}/` : `/${config.default_lang}/`;
+    }
+  }
+  return lang;
+};
+
+export const addToClipboard = (text) => {
+  var copyElement = document.createElement('input');
+  copyElement.style.position = 'fixed';
+  copyElement.style.opacity = '0';
+  copyElement.value = text;
+  var body = document.getElementsByTagName('body')[0];
+  body.appendChild(copyElement);
+  copyElement.select();
+  document.execCommand('copy');
+  body.removeChild(copyElement);
+  document.querySelector('#snackbar').classList.add('show');
+
+  setTimeout(function () {
+    document.querySelector('#snackbar').classList.remove('show');
+  }, 3000);
 };

@@ -1,5 +1,6 @@
 import { config } from '../config';
 import { api } from './apiService';
+import { returnLangParam } from './utils_global';
 
 export const refreshExtensionData = () => {
   addExtensionSettingsToStorage();
@@ -117,16 +118,7 @@ export const addBonusesToStorage = () => {
 export const getTopStoresFromStorage = () => {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get(['top_stores', 'lang'], function (result) {
-      let lang = '';
-      if (config.is_default_params) {
-        lang = result.lang ? `/${result.lang}/` : `/${config.default_lang}/`;
-      } else {
-        if (result.lang == config.default_lang) {
-          lang = '/';
-        } else {
-          lang = result.lang ? `/${result.lang}/` : `/${config.default_lang}/`;
-        }
-      }
+      let lang = returnLangParam(result.lang);
       if (result.top_stores) {
         let stores = result.top_stores;
         stores.forEach((e) => {
@@ -140,3 +132,26 @@ export const getTopStoresFromStorage = () => {
     });
   });
 };
+
+export function getTopOffersFromStorage() {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(['top_offers', 'lang'], function (result) {
+      if (result.top_offers) {
+        let offers = result.top_offers;
+        let lang = returnLangParam(result.lang);
+        offers.forEach((e) => {
+          e.href = `${config.app_url}${lang}out/coupon/${e.id}`;
+          if (e.store.cashback_enabled) {
+            e.cashback_string = e.store.cashback_string;
+          } else {
+            e.cashback_string = '';
+          }
+        });
+        resolve(offers);
+      } else {
+        refreshExtensionData();
+        reject();
+      }
+    });
+  });
+}
