@@ -6,6 +6,7 @@ import { LoginButton } from './LoginButton';
 const Header = () => {
   const userData = useContext(UserContext)[0];
   const loading = useContext(UserContext)[2];
+  const isUserLogin = useContext(UserContext)[3];
   const [theme, setThemeToStateNStorage] = useContext(ThemeContext);
 
   const setTheme = (theme) => {
@@ -23,7 +24,7 @@ const Header = () => {
         {theme}
       </div>
       Header Component
-      {!userData ? <LoginButton /> : loading ? translate('loading') : userData?.member_info?.user?.first_name}
+      {!isUserLogin ? <LoginButton /> : loading ? translate('loading') : userData?.member_info.first_name}
       <br />
     </div>
   );

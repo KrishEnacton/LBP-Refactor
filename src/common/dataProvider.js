@@ -132,7 +132,7 @@ export const getTopStoresFromStorage = () => {
   });
 };
 
-export function getTopOffersFromStorage() {
+export const getTopOffersFromStorage = () => {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get(['top_offers', 'lang'], function (result) {
       if (result.top_offers) {
@@ -153,13 +153,13 @@ export function getTopOffersFromStorage() {
       }
     });
   });
-}
+};
 
-export function getUserInfoFromStorage() {
+export const getUserInfoFromStorage = () => {
   return new Promise((resolve) => {
     chrome.storage.local.get(['user_info', 'settings', 'lang', 'bonus_types'], function (result) {
       if (result.user_info) {
-        let member_info = result.user_info;
+        let member_info = result.user_info.user;
         let earning = result.user_info.data.earning;
         let settings = result.settings;
         let lang = returnLangParam(result.lang);
@@ -200,4 +200,4 @@ export function getUserInfoFromStorage() {
       }
     });
   });
-}
+};
