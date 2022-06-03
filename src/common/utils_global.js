@@ -109,7 +109,6 @@ export const i18nextInit = () => {
 
 export function set_user_lang() {
   chrome.storage.local.get((res) => {
-    console.log('res:', res);
     i18next.changeLanguage(res.lang, (err, t) => {
       if (err) console.log('err', err);
     });

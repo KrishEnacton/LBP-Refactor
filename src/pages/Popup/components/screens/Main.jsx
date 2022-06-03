@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { getUserDashboard } from '../../../../common/dataProvider';
 import { getThemeFromStorage, setThemeToStorage, set_user_lang, translate } from '../../../../common/utils_global';
 import Styles, { rawSetTheme } from '../../../../style/Styles';
@@ -39,8 +39,8 @@ const Main = () => {
     rawSetTheme(theme);
   };
 
-  const RenderActiveTab = ({ id }) => {
-    switch (id) {
+  const RenderActiveTab = useMemo(() => {
+    switch (activeTab) {
       case 1:
         return <Home />;
       case 2:
@@ -50,7 +50,7 @@ const Main = () => {
       default:
         return <Home />;
     }
-  };
+  }, [activeTab]);
 
   return (
     <ThemeContext.Provider value={[theme, setThemeToStateNStorage]}>
@@ -59,7 +59,7 @@ const Main = () => {
         <div>
           <Header />
           {loading ? translate('loading') : userData?.user?.first_name}
-          <RenderActiveTab id={activeTab} />
+          {RenderActiveTab}
 
           <BottomTab setActiveTab={setActiveTab} activeTab={activeTab} />
         </div>
