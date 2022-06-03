@@ -10,21 +10,20 @@ export const refreshExtensionData = () => {
   addBonusesToStorage();
 };
 
-export const getUserDashboard = () => {
+export const getUserDashboard = (token) => {
   return new Promise((resolve) => {
-    chrome.storage.local.get((result) => {
-      if (result.user_token) {
-        api
-          .get('/user/dashboard', {
-            Authorization: `Bearer ${result.user_token}`,
-          })
-          .then((data) => {
-            resolve(data);
-          });
-      } else {
-        resolve(false);
-      }
-    });
+    if (token) {
+      api
+        .get('/user/dashboard', {
+          Authorization: `Bearer ${token}`,
+        })
+        .then((data) => {
+          chrome.storage.local.set({ user_info: data });
+          resolve(data);
+        });
+    } else {
+      resolve(false);
+    }
   });
 };
 
@@ -151,6 +150,53 @@ export function getTopOffersFromStorage() {
       } else {
         refreshExtensionData();
         reject();
+      }
+    });
+  });
+}
+
+export function getUserInfoFromStorage() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['user_info', 'settings', 'lang', 'bonus_types'], function (result) {
+      if (result.user_info) {
+        let member_info = result.user_info;
+        let earning = result.user_info.data.earning;
+        let settings = result.settings;
+        let lang = returnLangParam(result.lang);
+        let referral_url = `${config.app_url}${lang}signup?referral=${member_info ? member_info.referral_code : ''}`;
+        let currency_info = {
+          currency_prefix: settings.currencies.default.display_as === 'prefix' ? settings.currencies.default.symbol : '',
+          currency_suffix: settings.currencies.default.display_as === 'suffix' ? settings.currencies.default.symbol : '',
+        };
+        let urls = {
+          site_url: config.app_url,
+          referral_url,
+          referral_percent: settings.referral_percent,
+          cashback_payment: config.app_url + lang + config.user_prefix + '/' + config.user_cashback_payment,
+          refer_n_earn_activity: config.app_url + lang + config.user_prefix + '/' + config.refer_earn,
+          missing_payment: config.app_url + lang + config.user_prefix + '/' + config.user_missing_cashback,
+          cashback_activity: config.app_url + lang + config.user_prefix + config.activities_prefix + config.cashback_prefix,
+          log_out: config.app_url + lang + config.logout_url,
+          log_in: config.app_url + lang + config.login_url,
+          facebook_share_url: 'https://www.facebook.com/sharer.php?u=' + referral_url,
+          twitter_share_url: 'https://twitter.com/intent/tweet?url=' + referral_url,
+          whats_app_url: 'https://api.whatsapp.com/send?text=' + referral_url,
+          how_it_works: config.app_url + lang + settings.page_urls['refer_earn'],
+        };
+        resolve({
+          member_info,
+          urls,
+          currency_info,
+          earning,
+          bonus_types: result.bonus_types,
+        });
+      } else {
+        let lang = returnLangParam(result.lang);
+        resolve({
+          urls: {
+            log_in: config.app_url + lang + config.login_url,
+          },
+        });
       }
     });
   });

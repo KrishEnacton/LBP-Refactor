@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { translate } from '../../../../common/utils_global';
 import { ThemeContext, UserContext } from '../../context/UserContext';
 import { LoginButton } from './LoginButton';
 
@@ -22,7 +23,7 @@ const Header = () => {
         {theme}
       </div>
       Header Component
-      {!userData ? <LoginButton /> : 'User info'}
+      {!userData ? <LoginButton /> : loading ? translate('loading') : userData?.member_info?.user?.first_name}
       <br />
     </div>
   );

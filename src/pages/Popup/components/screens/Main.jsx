@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { getUserDashboard } from '../../../../common/dataProvider';
+import { getUserInfoFromStorage } from '../../../../common/dataProvider';
 import { getThemeFromStorage, setThemeToStorage, set_user_lang, translate } from '../../../../common/utils_global';
 import Styles, { rawSetTheme } from '../../../../style/Styles';
 import { ThemeContext, UserContext } from '../../context/UserContext';
@@ -22,7 +22,7 @@ const Main = () => {
       rawSetTheme(data);
     });
     setLoading(true);
-    getUserDashboard()
+    getUserInfoFromStorage()
       .then((data) => {
         setUserData(data);
         setLoading(false);
@@ -58,7 +58,7 @@ const Main = () => {
         <Styles />
         <div>
           <Header />
-          {loading ? translate('loading') : userData?.user?.first_name}
+
           {RenderActiveTab}
 
           <BottomTab setActiveTab={setActiveTab} activeTab={activeTab} />
