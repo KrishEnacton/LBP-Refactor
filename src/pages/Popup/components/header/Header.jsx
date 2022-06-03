@@ -24,7 +24,16 @@ const Header = () => {
         {theme}
       </div>
       Header Component
-      {!isUserLogin ? <LoginButton /> : loading ? translate('loading') : userData?.member_info.first_name}
+      {!isUserLogin ? (
+        <LoginButton />
+      ) : loading ? (
+        translate('loading')
+      ) : (
+        <>
+          {userData?.member_info.first_name}
+          {userData.earning.life_time_earning}
+        </>
+      )}
       <br />
     </div>
   );

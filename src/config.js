@@ -2,7 +2,7 @@ export var config = {
   app_url: 'https://lbp8.enactweb.com',
   api_app_url: 'https://lbp8api.enactweb.com',
   welcome_url: 'https://lbp8.enactweb.com',
-  login_url: '/login',
+  login_url: 'login',
   logout_url: '',
   app_reg: 'https://lbp8.enactweb.com/',
   app_out_url: 'https://lbp8.enactweb.com/[a-z]*[/]*out/',
@@ -31,13 +31,18 @@ export var config = {
   default_lang: 'en',
   is_default_params: false,
   tabs: [
-    { id: 1, title: 'home', isEnable: true, key: 'Home' },
-    { id: 2, title: 'refer_n_earn', isEnable: true, key: 'ReferNEarn' },
-    { id: 3, title: 'profile', isEnable: true, key: 'Profile' },
+    { id: 1, title: 'home', isEnable: true, key: 'Home', defaultTab: true },
+    { id: 2, title: 'refer_n_earn', isEnable: true, key: 'ReferNEarn', defaultTab: false },
+    { id: 3, title: 'profile', isEnable: true, key: 'Profile', defaultTab: false },
   ],
   home_screen_tabs: [
     { id: 101, title: 'top_stores', isEnable: true },
     { id: 102, title: 'top_offers', isEnable: true },
   ],
-  themeMode: 'dark', // light or dark
+  themeMode: 'light', // light or dark
+  options: {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  },
 };

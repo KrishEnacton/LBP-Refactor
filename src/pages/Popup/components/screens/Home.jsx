@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { translate } from '../../../../common/utils_global';
 import { config } from '../../../../config';
-import { SnackBar } from '../SnackBar';
 import TopOffers from '../TopOffers';
 import TopStores from '../TopStores';
 
@@ -30,7 +29,6 @@ const Home = () => {
         );
       })}
       {RenderHomeActiveTab}
-      <SnackBar />
     </div>
   );
 };

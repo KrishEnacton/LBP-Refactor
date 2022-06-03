@@ -168,6 +168,17 @@ export const getUserInfoFromStorage = () => {
           currency_prefix: settings.currencies.default.display_as === 'prefix' ? settings.currencies.default.symbol : '',
           currency_suffix: settings.currencies.default.display_as === 'suffix' ? settings.currencies.default.symbol : '',
         };
+        let user_initials = member_info.first_name.substring(0, 2).toUpperCase();
+        earning.reward.pending = Number(earning.reward.pending).toFixed(2);
+        earning.paid.reward = Number(earning.paid.reward).toFixed(2);
+        earning.reward.total = Number(earning.reward.total).toFixed(2);
+        earning.cashback.total = Number(earning.cashback.total).toFixed(2);
+        earning.confirmed_cashback_amount = (Number(earning.cashback.confirmed) - Number(earning.paid.cashback)).toFixed(2);
+        earning.confirmed_reward_amount = (Number(earning.reward.confirmed) - Number(earning.paid.reward)).toFixed(2);
+        member_info.member_since = new Date(member_info.created_at).toLocaleDateString(member_info.lang, config.options);
+        let total_amount = earning.total.cashback + earning.total.reward - earning.total.paid;
+        earning.life_time_earning =
+          currency_info.currency_prefix + Number(total_amount).toFixed(2) + ' ' + currency_info.currency_suffix;
         let urls = {
           site_url: config.app_url,
           referral_url,
@@ -189,6 +200,7 @@ export const getUserInfoFromStorage = () => {
           currency_info,
           earning,
           bonus_types: result.bonus_types,
+          user_initials,
         });
       } else {
         let lang = returnLangParam(result.lang);

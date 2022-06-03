@@ -6,6 +6,7 @@ import Styles, { rawSetTheme } from '../../../../style/Styles';
 import { ThemeContext, UserContext } from '../../context/UserContext';
 import BottomTab from '../BottomTab';
 import Header from '../header/Header';
+import { SnackBar } from '../SnackBar';
 import Home from './Home';
 import Profile from './Profile';
 import ReferNEarn from './ReferNEarn';
@@ -67,6 +68,7 @@ const Main = () => {
           {RenderActiveTab}
 
           <BottomTab setActiveTab={setActiveTab} activeTab={activeTab} />
+          <SnackBar />
         </div>
       </UserContext.Provider>
     </ThemeContext.Provider>
