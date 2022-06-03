@@ -1,28 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { translate } from '../../../../common/utils_global';
 import { config } from '../../../../config';
+import TopOffers from '../TopOffers';
+import TopStores from '../TopStores';
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState(101);
 
-  const RenderHomeTab = (id) => {
-    switch (id) {
+  const RenderHomeActiveTab = useMemo(() => {
+    switch (activeTab) {
       case 101:
         return <TopStores />;
       case 102:
         return <TopOffers />;
       default:
-        return <TopOffers />;
+        return <TopStores />;
     }
-  };
-
-  const TopStores = () => {
-    return <div>TopStoreComponent</div>;
-  };
-
-  const TopOffers = () => {
-    return <div>TopOfferComponent</div>;
-  };
+  }, [activeTab]);
 
   return (
     <div className="bg-white dark:bg-black transition-all">
@@ -34,7 +28,7 @@ const Home = () => {
           </div>
         );
       })}
-      {RenderHomeTab(activeTab)}
+      {RenderHomeActiveTab}
     </div>
   );
 };

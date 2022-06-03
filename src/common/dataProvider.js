@@ -1,3 +1,4 @@
+import { config } from '../config';
 import { api } from './apiService';
 
 export const refreshExtensionData = () => {
@@ -111,4 +112,31 @@ export const addBonusesToStorage = () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const getTopStoresFromStorage = () => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(['top_stores', 'lang'], function (result) {
+      let lang = '';
+      if (config.is_default_params) {
+        lang = result.lang ? `/${result.lang}/` : `/${config.default_lang}/`;
+      } else {
+        if (result.lang == config.default_lang) {
+          lang = '/';
+        } else {
+          lang = result.lang ? `/${result.lang}/` : `/${config.default_lang}/`;
+        }
+      }
+      if (result.top_stores) {
+        let stores = result.top_stores;
+        stores.forEach((e) => {
+          e.href = `${config.app_url}${lang}out/store/${e.id}`;
+        });
+        resolve(stores);
+      } else {
+        refreshExtensionData();
+        reject();
+      }
+    });
+  });
 };
