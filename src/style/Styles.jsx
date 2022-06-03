@@ -4,19 +4,26 @@ import { ThemeContext } from '../pages/Popup/context/UserContext';
 const Styles = () => {
   const theme = useContext(ThemeContext)[0];
   if (theme === 'dark') {
-    return <DarkTheme />;
+    return <DarkThemeCustomStyle />;
   } else if (theme === 'light') {
-    return <LightTheme />;
+    return <LightThemeCustomStyle />;
   } else {
-    return <LightTheme />;
+    return <LightThemeCustomStyle />;
   }
 };
 
-const DarkTheme = () => {
+export const rawSetTheme = (rawTheme) => {
+  const root = window.document.documentElement;
+  const isDark = rawTheme === 'dark';
+  root.classList.remove(isDark ? 'light' : 'dark');
+  root.classList.add(rawTheme);
+};
+
+const DarkThemeCustomStyle = () => {
   return <style>{``}</style>;
 };
 
-const LightTheme = () => {
+const LightThemeCustomStyle = () => {
   return <style>{``}</style>;
 };
 

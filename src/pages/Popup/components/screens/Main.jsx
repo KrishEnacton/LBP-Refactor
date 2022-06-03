@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getUserDashboard } from '../../../../common/dataProvider';
 import { getThemeFromStorage, setThemeToStorage, set_user_lang, translate } from '../../../../common/utils_global';
-import Styles from '../../../../style/Styles';
+import Styles, { rawSetTheme } from '../../../../style/Styles';
 import { ThemeContext, UserContext } from '../../context/UserContext';
 import BottomTab from '../BottomTab';
 import Header from '../header/Header';
@@ -37,13 +37,6 @@ const Main = () => {
     setTheme(theme);
     setThemeToStorage(theme);
     rawSetTheme(theme);
-  };
-
-  const rawSetTheme = (rawTheme) => {
-    const root = window.document.documentElement;
-    const isDark = rawTheme === 'dark';
-    root.classList.remove(isDark ? 'light' : 'dark');
-    root.classList.add(rawTheme);
   };
 
   const RenderActiveTab = (id) => {
