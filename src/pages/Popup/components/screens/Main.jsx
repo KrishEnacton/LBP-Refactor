@@ -39,7 +39,7 @@ const Main = () => {
     rawSetTheme(theme);
   };
 
-  const RenderActiveTab = (id) => {
+  const RenderActiveTab = ({ id }) => {
     switch (id) {
       case 1:
         return <Home />;
@@ -59,7 +59,7 @@ const Main = () => {
         <div>
           <Header />
           {loading ? translate('loading') : userData?.user?.first_name}
-          {RenderActiveTab(activeTab)}
+          <RenderActiveTab id={activeTab} />
 
           <BottomTab setActiveTab={setActiveTab} activeTab={activeTab} />
         </div>
