@@ -1,4 +1,5 @@
 import { config } from '../../config';
+import { renderCashbackActivatedPopup, renderCashbackActivatePopup } from './injectActivateCashback';
 
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
   let app_reg = new RegExp(config.app_reg);
@@ -32,5 +33,10 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log('request:', request);
+  if (request.action === 'show_cashback_activated_popup') {
+    renderCashbackActivatedPopup(request.data);
+  }
+  if (request.action === 'show_cashback_activate_popup') {
+    renderCashbackActivatePopup(request.data);
+  }
 });
