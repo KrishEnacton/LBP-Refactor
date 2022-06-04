@@ -34,6 +34,7 @@ export var config = {
     { id: 1, title: 'home', isEnable: true, key: 'Home', defaultTab: true },
     { id: 2, title: 'refer_n_earn', isEnable: true, key: 'ReferNEarn', defaultTab: false },
     { id: 3, title: 'profile', isEnable: true, key: 'Profile', defaultTab: false },
+    { id: 4, title: 'storeDetails', isEnable: false, key: 'StoreDetails', defaultTab: false },
   ],
   home_screen_tabs: [
     { id: 101, title: 'top_stores', isEnable: true },
