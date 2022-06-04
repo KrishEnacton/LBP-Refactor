@@ -28,9 +28,12 @@ export function handleInjectPopupType(store_info, tab) {
         var cookie_trip_id = null;
         var cookie = '';
         var hide_activated = false;
-        chrome.storage.local.get(['url', 'domain', 'value', 'name', 'isSafari'], (result) => {
-          if (result.name === config.activated_popup_id_cookie_name && result.isSafari) {
-            cookie_trip_id = result.value;
+        store_info.tabId = tab.id;
+        chrome.storage.local.get(['url', 'domain', 'value', 'name', 'isSafari', 'hide_activated_popup'], (result) => {
+          if (
+            result.hide_activated_popup?.domain_name === store_info.domain_name &&
+            result.hide_activated_popup?.tabId === tab.id
+          ) {
             hide_activated = true;
           }
 
@@ -43,7 +46,7 @@ export function handleInjectPopupType(store_info, tab) {
           //     }
           //   }
           if (res.member_info && tab_check && store_trip_info.store_id === store_info.id) {
-            if (tab.id === store_trip_info.tab_id && cookie_trip_id !== store_trip_info.trip_id) {
+            if (tab.id === store_trip_info.tab_id && cookie_trip_id !== store_trip_info.trip_id && !hide_activated) {
               chrome.tabs.sendMessage(tab.id, {
                 from: 'bg_support_functions',
                 action: 'show_cashback_activated_popup',
@@ -62,7 +65,8 @@ export function handleInjectPopupType(store_info, tab) {
           } else if (
             (store_trip_info.tab_id !== tab.id || !tab_check || cookie_trip_id !== store_trip_info.trip_id) &&
             !hide_activate_button &&
-            !isLinkAffiliated()
+            !isLinkAffiliated() &&
+            !hide_activated
           ) {
             chrome.tabs.sendMessage(tab.id, {
               from: 'bg_support_functions',

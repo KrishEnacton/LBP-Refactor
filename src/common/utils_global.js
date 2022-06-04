@@ -204,3 +204,7 @@ export const addToClipboard = (text) => {
     document.querySelector('#snackbar').classList.remove('show');
   }, 3000);
 };
+
+export const clearStorage = () => {
+  chrome.storage.local.remove(['url', 'domain', 'value', 'name', 'hide_activated_popup']);
+};
