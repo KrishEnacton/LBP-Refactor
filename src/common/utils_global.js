@@ -120,11 +120,11 @@ export function translate(text) {
   return i18next.t(text);
 }
 
-export function get_image_url(text) {
+export function getImage_url(text) {
   return config[text];
 }
 
-export function get_constructed_cashback_string(rate_type, amount_type, current_cb) {
+export function getConstructedCashbackString(rate_type, amount_type, current_cb) {
   let returnText = '';
   let amount = '';
   if (!current_cb) {
@@ -143,7 +143,7 @@ export function get_constructed_cashback_string(rate_type, amount_type, current_
   return returnText;
 }
 
-export function get_constructed_cashback(amount_type, current_cb) {
+export function getConstructedCashback(amount_type, current_cb) {
   // let returnText = "";
   let amount = '';
   if (!current_cb) {

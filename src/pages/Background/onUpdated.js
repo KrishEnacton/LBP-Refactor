@@ -1,6 +1,7 @@
 import { api } from '../../common/apiService';
-import { getUserDashboard } from '../../common/dataProvider';
+import { getUserDashboard, isMerchantPage } from '../../common/dataProvider';
 import { config } from '../../config';
+import { handleCheckOutPage, handleMerchantPage } from './bgSupport';
 
 export const onUpdated = (tab_info, change_info, tab) => {
   if (change_info.status === 'complete') {
@@ -12,7 +13,6 @@ export const onUpdated = (tab_info, change_info, tab) => {
           let user_id;
           let lang;
           user_id = cookies.filter((a) => a.name === 'user_id')?.[0]?.value;
-          console.log('user_id', user_id);
           cry_user_token = cookies.filter((a) => a.name === 'cry_user_token')?.[0]?.value;
           lang = cookies.filter((a) => a.name === 'lang')?.[0]?.value;
           chrome.storage.local.set({ lang: lang });
@@ -36,5 +36,21 @@ export const onUpdated = (tab_info, change_info, tab) => {
         });
       }, 100);
     }
+    isMerchantPage(tab.url).then((res) => {
+      console.log('res:', res);
+      let google_regex = new RegExp('google.com');
+      let check_out_regex = new RegExp(res.checkout_url);
+      if (res.checkout_url && check_out_regex.test(tab.url) && res.id) {
+        handleCheckOutPage(res, {
+          ...tab,
+          referrer: tab,
+        });
+      } else if (res.id && res.cashback_enabled && !google_regex.test(tab.url)) {
+        handleMerchantPage(res, {
+          ...tab,
+          referrer: tab,
+        });
+      }
+    });
   }
 };

@@ -213,3 +213,89 @@ export const getUserInfoFromStorage = () => {
     });
   });
 };
+
+export function isMerchantPage(web_url) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(['all_stores', 'stores_domain_list', 'all_stores_timestamp'], function (result) {
+      let all_stores = result.all_stores;
+      let today = new Date().valueOf();
+      let day_ago = today - 60 * 60 * 24 * 1000;
+      if (result.all_stores && result.all_stores_timestamp && result.all_stores_timestamp < day_ago) {
+        refreshExtensionData();
+      }
+      let all_domains = {};
+      if (all_stores) {
+        all_domains = Object.keys(all_stores);
+      }
+      let domain_list = result.stores_domain_list ? result.stores_domain_list : {};
+      let store = {};
+      let nUrl = new URL(web_url);
+      let fullDomain = nUrl.hostname;
+      checkFromStorageData(domain_list, fullDomain, all_stores, web_url);
+      let domain_name = checkFromStorageData(domain_list, fullDomain, all_stores, web_url);
+      if (domain_name) {
+        resolve({
+          ...all_stores[domain_name],
+        });
+      } else {
+        for (let i = 0; i < all_domains.length; i++) {
+          let dt = '([^a-zA-Z0-9~@#$^*()_+={}|\\,?:-])' + all_domains[i];
+          if (all_domains[i].includes('*')) {
+            dt = '([^a-zA-Z0-9])' + all_domains[i];
+          }
+          let domainRegex = new RegExp(dt);
+          if (domainRegex.test(web_url) && all_domains[i] !== '') {
+            let new_domain_list = domain_list[fullDomain] || [];
+            new_domain_list.push(all_domains[i]);
+            domain_list[fullDomain] = new_domain_list;
+            store = {
+              ...all_stores[all_domains[i]],
+            };
+            chrome.storage.local.set(
+              {
+                stores_domain_list: domain_list,
+              },
+              function () {}
+            );
+          }
+        }
+      }
+      resolve(store);
+    });
+  });
+}
+
+export function checkFromStorageData(domain_list, full_domain, web_url) {
+  let store = domain_list[full_domain]
+    ? domain_list[full_domain].find((e) => {
+        let dt = '([^a-zA-Z0-9~@#$^*()_+={}|\\,?:-])' + e;
+        if (e.includes('*')) {
+          dt = '([^a-zA-Z0-9])' + e;
+        }
+        let regex = new RegExp(dt);
+        return regex.test(web_url);
+      })
+    : [];
+  if (store && store.length > 0) {
+    return store;
+  } else {
+    return false;
+  }
+}
+
+export const getCashbackActivationInfoFromStorage = () => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(['trip_info', 'cashback_tabs', 'lang'], function (result) {
+      if (result) {
+        resolve(result);
+      }
+    });
+  });
+};
+
+export function addCashbackUpdatedDataToStorage(trip_info, cashback_tabs) {
+  chrome.storage.local.set({
+    trip_info,
+    cashback_tabs,
+  });
+}
