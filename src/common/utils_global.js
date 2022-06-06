@@ -1,5 +1,6 @@
 import i18next from 'i18next';
 import { config } from '../config';
+import { isMerchantPage } from './dataProvider';
 
 export const i18nextInit = () => {
   if (!i18next.isInitialized) {
@@ -208,3 +209,41 @@ export const addToClipboard = (text) => {
 export const clearStorage = () => {
   chrome.storage.local.remove(['url', 'domain', 'value', 'name', 'hide_activated_popup']);
 };
+
+export function setCouponCountBadge() {
+  chrome.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
+    if (tabs[0].url) {
+      chrome.action.setBadgeText({ text: '' });
+      chrome?.browser_action?.setBadgeText({ text: '' });
+      isMerchantPage(tabs[0].url).then((res) => {
+        if (res.id) {
+          let body = {
+            cat: [],
+            order: 'latest',
+            page: 1,
+            perPage: 1000,
+            show: 'all',
+            store: [res.id],
+          };
+          api.post('/public/coupons', body).then((c_res) => {
+            let coupons_count = c_res.data ? (c_res.data.coupons ? c_res.data.coupons.length : 0) : 0;
+            if (coupons_count > 0) {
+              chrome?.action?.setBadgeBackgroundColor({
+                color: config.primary_color,
+              });
+              chrome?.action?.setBadgeText({
+                text: coupons_count.toString(),
+              });
+              chrome?.browser_action?.setBadgeBackgroundColor({
+                color: config.primary_color,
+              });
+              chrome?.browser_action?.setBadgeText({
+                text: coupons_count.toString(),
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+}

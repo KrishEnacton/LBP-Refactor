@@ -1,5 +1,6 @@
 import { api } from '../../common/apiService';
 import { getUserDashboard, isMerchantPage } from '../../common/dataProvider';
+import { setCouponCountBadge } from '../../common/utils_global';
 import { config } from '../../config';
 import { handleCheckOutPage, handleMerchantPage } from './bgSupport';
 
@@ -37,7 +38,6 @@ export const onUpdated = (tab_info, change_info, tab) => {
       }, 100);
     }
     isMerchantPage(tab.url).then((res) => {
-      console.log('res:', res);
       let google_regex = new RegExp('google.com');
       let check_out_regex = new RegExp(res.checkout_url);
       if (res.checkout_url && check_out_regex.test(tab.url) && res.id) {
@@ -52,5 +52,17 @@ export const onUpdated = (tab_info, change_info, tab) => {
         });
       }
     });
+    googleSERP(tab);
   }
+};
+
+const googleSERP = (tab) => {
+  let google_regex = new RegExp('google.com');
+  if (google_regex.test(tab.url)) {
+    chrome.tabs.sendMessage(tab.id, {
+      from: 'bg/index.js',
+      action: 'google_serp_script',
+    });
+  }
+  setCouponCountBadge();
 };

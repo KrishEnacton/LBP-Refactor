@@ -1,7 +1,7 @@
 import React from 'react';
 
-const GoogleSERP = () => {
-  return <div>GoogleSERP</div>;
+const GoogleSERP = ({ cashback_string, out_url }) => {
+  return <div id="test-div">GoogleSERP: {cashback_string}</div>;
 };
 
 export default GoogleSERP;

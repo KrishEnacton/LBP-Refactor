@@ -1,4 +1,5 @@
 import { config } from '../../config';
+import { addLinksGoogle } from './googleSERPScript';
 import { renderCashbackActivatedPopup, renderCashbackActivatePopup } from './injectActivateCashback';
 
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -38,5 +39,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
   if (request.action === 'show_cashback_activate_popup') {
     renderCashbackActivatePopup(request.data);
+  }
+  if (request.action === 'google_serp_script') {
+    addLinksGoogle();
   }
 });
