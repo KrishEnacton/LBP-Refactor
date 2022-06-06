@@ -247,3 +247,31 @@ export function setCouponCountBadge() {
     }
   });
 }
+
+export const debounce = (func, delay) => {
+  let debounceTimer;
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => func.apply(context, args), delay);
+  };
+};
+
+export function searchThisStore(search_text) {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['all_stores', 'top_stores', 'lang'], function (result) {
+      const storesArry = Object.entries(result.all_stores).map(([key, value]) => value);
+      let filterData = storesArry.filter((store) => {
+        let name = store.name.toLowerCase();
+        return name.trim().includes(search_text.trim().toLowerCase());
+      });
+
+      let lang = returnLangParam(result.lang);
+      filterData.forEach((e) => {
+        e.href = `${config.app_url}${lang}out/store/${e.id}`;
+      });
+      resolve(filterData);
+    });
+  });
+}
